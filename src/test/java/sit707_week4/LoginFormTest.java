@@ -5,7 +5,7 @@ import org.junit.Test;
 
 /**
  * Tests functions in LoginForm.
- * @author Ahsan Habib
+ * @author Mark Przybylkiewicz
  */
 public class LoginFormTest 
 {
@@ -81,6 +81,22 @@ public class LoginFormTest
     public void testCorrectUsernameWrongPassword() {
         LoginStatus status = LoginForm.login("Mark", "wrongpassword");
         Assert.assertTrue("Login should fail with correct username and wrong password", status.isLoginSuccess()== false);
+    }
+
+	@Test
+    public void testCorrectUsernamePasswordAndWrongValidationCode() {
+        LoginStatus status = LoginForm.login("Mark", "Mark216293263");
+        Assert.assertTrue("Login should succeed with correct username and password", status.isLoginSuccess());
+        boolean validation = LoginForm.validateCode("wrongcode");
+        Assert.assertFalse("Validation should fail with wrong code", validation);
+    }
+
+    @Test
+    public void testCorrectUsernamePasswordAndCorrectValidationCode() {
+        LoginStatus status = LoginForm.login("Mark", "Mark216293263");
+        Assert.assertTrue("Login should succeed with correct username and password", status.isLoginSuccess());
+        boolean validation = LoginForm.validateCode("123456");
+        Assert.assertTrue("Validation should succeed with correct code", validation);
     }
 
 
